@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Form Validation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+   
+</head>
+<body>
+    <div class="container mt-5">
+        <form onsubmit="validateForm(event)">
+            <div class="mb-3">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-control" id="firstName">
+                <div class="text-danger"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lastName">
+                <div class="text-danger"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">User Name</label>
+                <input type="text" class="form-control" id="userName">
+                <div class="text-danger"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" id="password">
+                <div class="text-danger"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="email">
+                <div class="text-danger"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Phone Number</label>
+                <input type="text" class="form-control" id="phone">
+                <div class="text-danger"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Gender</label><br>
+                <input type="radio" name="gender" value="Male"> Male
+                <input type="radio" name="gender" value="Female"> Female
+                <div class="text-danger" id="genderError"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">City</label>
+                <input type="text" class="form-control" id="city">
+                <div class="text-danger"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">State</label>
+                <input type="text" class="form-control" id="state">
+                <div class="text-danger"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" id="dob">
+                <div class="text-danger"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Address</label>
+                <textarea class="form-control" id="address"></textarea>
+                <div class="text-danger"></div>
+            </div>
+            <div class="mb-3">
+                <input type="checkbox" id="terms"> I agree to terms and conditions
+                <div class="text-danger"></div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+     <script>
+        function validateForm(event) {
+            event.preventDefault();
+            let isValid = true;
+            
+            function showError(input, message) {
+                let errorSpan = input.nextElementSibling;
+                errorSpan.innerText = message;
+                input.classList.add("is-invalid");
+                isValid = false;
+            }
+            
+            function clearError(input) {
+                let errorSpan = input.nextElementSibling;
+                errorSpan.innerText = "";
+                input.classList.remove("is-invalid");
+            }
+            
+            let firstName = document.getElementById("firstName");
+            let lastName = document.getElementById("lastName");
+            let userName = document.getElementById("userName");
+            let password = document.getElementById("password");
+            let email = document.getElementById("email");
+            let phone = document.getElementById("phone");
+            let gender = document.querySelector("input[name='gender']:checked");
+            let city = document.getElementById("city");
+            let state = document.getElementById("state");
+            let dob = document.getElementById("dob");
+            let address = document.getElementById("address");
+            let terms = document.getElementById("terms");
+
+            let nameRegex = /^[A-Za-z]+$/;
+            let phoneRegex = /^[0-9]{10}$/;
+            let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!nameRegex.test(firstName.value)) {
+                showError(firstName, "Only letters allowed");
+            } else{ clearError(firstName)}
+
+            if (!nameRegex.test(lastName.value)) {
+                showError(lastName, "Only letters allowed");
+            } else clearError(lastName);
+
+            if (userName.value.trim() === "") {
+                showError(userName, "User Name is required");
+            } else clearError(userName);
+
+            if (password.value.trim() === "") {
+                showError(password, "Password is required");
+            } else clearError(password);
+
+            if (!emailRegex.test(email.value)) {
+                showError(email, "Invalid email format");
+            } else clearError(email);
+
+            if (!phoneRegex.test(phone.value)) {
+                showError(phone, "Phone number must be 10 digits");
+            } else clearError(phone);
+
+            if (!gender) {
+                document.getElementById("genderError").innerText = "Select a gender";
+                isValid = false;
+            } else document.getElementById("genderError").innerText = "";
+
+            if (city.value.trim() === "") {
+                showError(city, "City is required");
+            } else clearError(city);
+
+            if (state.value.trim() === "") {
+                showError(state, "State is required");
+            } else clearError(state);
+
+            if (dob.value.trim() === "") {
+                showError(dob, "Date of birth is required");
+            } else clearError(dob);
+
+            if (address.value.trim() === "") {
+                showError(address, "Address is required");
+            } else clearError(address);
+
+            if (!terms.checked) {
+                showError(terms, "You must agree to terms");
+            } else clearError(terms);
+
+            if (isValid) {
+                alert("Form submitted successfully!");
+            }
+        }
+    </script>
+    
+</body>
+</html>
